@@ -37,6 +37,7 @@ export class Location extends Component {
         }
         this.changeSelectedList = this.changeSelectedList.bind(this)
         this.changeCity = this.changeCity.bind(this)
+        this.getDistrict = this.getDistrict.bind(this)
     }
 
     changeSelectedList(event){
@@ -70,6 +71,10 @@ export class Location extends Component {
                 </div>
             </div>
         )
+    }
+
+    getDistrict(){
+        return this.districts;
     }
 }
 

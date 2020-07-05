@@ -9,6 +9,8 @@ import TeacherDashboard from './components/dashboards/TeacherDashboard'
 import FooterComponent from './components/navigations/FooterComponent'
 import HeaderComponent from './components/navigations/HeaderComponent'
 import AuthenticatedRoute from './services/AuthenticatedRoute'
+import StudentSelections from './components/StudentSelections'
+import StudentSUbjectSelection from './components/forms/StudentSubjectSelection'
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
@@ -24,6 +26,7 @@ function App() {
           <Route path="/" exact component={Home}/>
           <Route path="/findaguru/home" component={Home}/>
           <Route path="/findaguru/beaguru/login" component={TeacherLogin}/>
+          <Route path="/findaguru/forstudents" component={StudentSelections}/>
           <Route path="/findaguru/beaguru/signup/user_details" component={TeacherSignup}/>
           <AuthenticatedRoute path="/findaguru/beaguru/dashboard" component={TeacherDashboard}/>
           <Route component={ErrorComponent}/>

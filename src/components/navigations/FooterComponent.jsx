@@ -5,7 +5,7 @@ function FooterComponent() {
         <footer className="footer">
 
 
-            <div>© 2020 Copyright: Find A GURU</div>
+            <div></div>
 
 
         </footer>
