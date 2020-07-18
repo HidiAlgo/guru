@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
+import SignUpService from '../../services/SignUpService'
 
 export class TeacherSignUpForm extends Component {
     constructor(props) {
@@ -13,23 +14,47 @@ export class TeacherSignUpForm extends Component {
                 email: '',
                 password: '',
                 birth_date: new Date(),
-                NIC: '',
+                nic: '',
                 street_address: '',
                 street_address2: '',
                 city: '',
                 state:'',
                 zip_code: '',
                 nationality: '',
-                religion: ''
-            }
+                religion: '',
+                photo: null
+            },
+            email_error_message: null,
+            nic_error_message: null
         }
     }
     
+    validate_details = (values) => {
+        console.log(values)
+        SignUpService.validateEmailAndNIC(values)
+            .then((response) => {
+                this.props.click_button(values)
+            }).catch((error) => {
+                if(error.response.data ===1){
+                    this.setState({
+                        email_error_message: "This email is already taken",
+                        nic_error_message: null
+                    })
+                }else{
+                    this.setState({
+                        email_error_message: null,
+                        nic_error_message: "This NIC is already taken"
+                    })
+                }
+
+            })
+    }
+    // this.props.click_button
     render() {
         return (
             <div>
                 <h5 className="text-center">User details</h5>
-                 <Formik  initialValues={this.state.user_details} onSubmit={this.props.click_button}>
+                 <Formik  initialValues={this.state.user_details} onSubmit={this.validate_details}>      
                     {
                         (props) => ( 
                             <Form>
@@ -53,6 +78,7 @@ export class TeacherSignUpForm extends Component {
                                         <div className="form-group col-6">
                                             <label>Email</label>
                                             <Field className="form-control" type="email" name="email"/>
+                                            <small style={{color: "red"}}>{this.state.email_error_message}</small>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -68,7 +94,8 @@ export class TeacherSignUpForm extends Component {
                                         </div>
                                         <div className="form-group col-6">
                                             <label>NIC</label>
-                                            <Field className="form-control" type="text" name="NIC"/>
+                                            <Field className="form-control" type="text" name="nic"/>
+                                            <small style={{color: "red"}}>{this.state.nic_error_message}</small>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -97,7 +124,7 @@ export class TeacherSignUpForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-control col-6">
-                                            <label>Religion</label>
+                                            <label>Nationality</label>
                                             <Field as="select" className="form-control col-12" name="nationality">
                                                 <option value='no_option'>Select</option>
                                                 <option value='sinhala'>Sinhala</option>

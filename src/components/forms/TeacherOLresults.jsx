@@ -41,7 +41,7 @@ function TeacherOLresults() {
                     </tr>
                     <tr>
                         <td>Religion</td>
-                        <Subjects subject="ol_result.religion" />
+                        <Subjects subject="ol_result.religion_subject" />
                     </tr>
                     <tr>
                         <td>History</td>

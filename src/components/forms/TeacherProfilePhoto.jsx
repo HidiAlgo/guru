@@ -1,31 +1,38 @@
 import React, { Component } from 'react'
-import ImageUploader from 'react-images-upload';
 
 export class TeacherProfilePhoto extends Component {
     constructor(props) {
         super(props);
-         this.state = { pictures: [] };
-         this.onDrop = this.onDrop.bind(this);
+         this.state = { photoUrl: null, img: null };
     }
  
-    onDrop(picture) {
+    imageSelected = (event) => {
         this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
+            photoUrl: URL.createObjectURL(event.target.files[0]),
+            img: event.target.files[0]
+        })
     }
- 
+
+    submit = () => {
+        this.props.click_button(this.state.img)
+    }
     render() {
         return (
-            <div className="row">
-                <div className="col-4">
-                    <ImageUploader
-                        withIcon={false}
-                        buttonText='Choose images'
-                        onChange={this.onDrop}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={5242880}
-                        withPreview={true}
-                    />
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <input type="file" onChange={this.imageSelected}/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <img src={this.state.photoUrl}  style={{maxWidth:"500px", maxHeight:"500px"}}/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12">
+                        <button className="btn btn-success" onClick={this.submit}>Submit</button>
+                    </div>
                 </div>
             </div>
         );

@@ -8,10 +8,10 @@ function HeaderComponent() {
     return (
         <header>
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                <div className="navbar-brand">Find a Guru</div>
+                <Link to="/findaguru/home" className="navbar-brand">Find a Guru</Link>
                 <ul className="navbar-nav">
                     {!authenticated && <li><Link to="/findaguru/home" className="nav-link">Home</Link></li>}
-                    {!authenticated && <li className="nav-link">Find a guru</li>}
+                    {!authenticated && <li><Link to="/findaguru/forstudents" className="nav-link">Find a guru</Link></li>}
                 </ul>
                 <ul className="navbar-nav navbar-collapse justify-content-end">
                     {!authenticated &&<li><Link to="/findaguru/beaguru/login" className="nav-link">Be a guru</Link></li>}

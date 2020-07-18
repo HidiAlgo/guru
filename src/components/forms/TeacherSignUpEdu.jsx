@@ -18,7 +18,7 @@ export class TeacherSignUpEdu extends Component {
                     science: '',
                     sinhala: '',
                     english: '',
-                    religion: '',
+                    religion_subject: '',
                     history: '',
                     bucket1: ['', ''],
                     bucket2: ['', ''],
@@ -151,7 +151,9 @@ export class TeacherSignUpEdu extends Component {
                                     </tbody>
                                 </table>
                                 <hr></hr>
-                                <button className="btn btn-success" type="submit">Submit</button>
+                                <button className="btn btn-success" type="submit">Next</button>
+                                <br></br>
+                                <hr></hr>
                             </Form>
                         )
                     }

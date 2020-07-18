@@ -12,11 +12,13 @@ export class Add extends Component {
     
         this.state = {
              show: false,
+             title:'',
              grade:1,
              subject: '',
              district: '',
              city:'',
              phone_number: '',
+             email: '',
              banner: null,
              hour_price: '',
              description: '',
@@ -87,6 +89,12 @@ export class Add extends Component {
                     <Modal.Body>
                         <div>
                             <div className="row">
+                                <div className = "col-12">
+                                    <label>Title</label>
+                                    <input type = "text" className = "form-control" name="title" value = {this.state.title} onChange={this.changeText}/>
+                                </div>
+                            </div>
+                            <div className="row">
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1">Grade</label>
                                     <input type="number" className="form-control" name="grade" min="1" max="13" onChange={this.changeText} value = {this.state.grade}/>
@@ -99,6 +107,12 @@ export class Add extends Component {
                                 <div className = "col-12">
                                     <label>Phone number</label>
                                     <input type = "text" className = "form-control" name="phone_number" value = {this.state.phone_number} onChange={this.changeText}/>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className = "col-12">
+                                    <label>Email</label>
+                                    <input type = "email" className = "form-control" name="email" value = {this.state.email} onChange={this.changeText}/>
                                 </div>
                             </div>
                             <hr></hr>

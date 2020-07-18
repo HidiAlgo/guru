@@ -12,6 +12,7 @@ import AuthenticatedRoute from './services/AuthenticatedRoute'
 import StudentSelections from './components/StudentSelections'
 import StudentSUbjectSelection from './components/forms/StudentSubjectSelection'
 
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import './App.css'
@@ -25,9 +26,9 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/findaguru/home" component={Home}/>
-          <Route path="/findaguru/beaguru/login" component={TeacherLogin}/>
-          <Route path="/findaguru/forstudents" component={StudentSelections}/>
-          <Route path="/findaguru/beaguru/signup/user_details" component={TeacherSignup}/>
+          <Route path="/findaguru/beaguru/login" exact component={TeacherLogin}/>
+          <Route path="/findaguru/forstudents" exact component={StudentSelections}/>
+          <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
           <AuthenticatedRoute path="/findaguru/beaguru/dashboard" component={TeacherDashboard}/>
           <Route component={ErrorComponent}/>
         </Switch>

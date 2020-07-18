@@ -80,7 +80,7 @@ class Degree extends Component {
                         <label htmlFor="end_year">End year</label>
                         <input type="date" className="form-control"value={this.state.end_year} onChange={this.changeText} name="end_year" id="end_year"></input>
 
-                        <label htmlFor="university">Institute</label>
+                        <label htmlFor="university">University</label>
                         <input type="text" className="form-control"value={this.state.university} onChange={this.changeText} name="university" id="university"></input>
 
                         <label htmlFor="description">Description</label>

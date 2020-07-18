@@ -7,6 +7,11 @@ export class StudentLocationSelection extends Component {
     
         this.state = {
              district: '',
+
+             districts: ['Colombo', 'Kandy', 'Galle', 'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara',
+                        'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala', 'Mullativu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura',
+                        'Trincomalee', 'Vavuniya'],
+
              cities: [['All of Colombo', 'Colombo 6', 'Nugegoda', 'Piliyandala', 'Athurugiriya', 'Maharagama'], 
                       ['All of Kandy', 'Kandy', 'Katugastota','Gampola','Peradeniya','Akurana'],
                       ['All of Galle','Galle','Ambalangoda','Elpitiya','Baddegama','Hikkaduwa'],
@@ -47,9 +52,17 @@ export class StudentLocationSelection extends Component {
         }
         document.getElementById(id).style.fill = "#C060A1"
         let selectedDistrictCities = this.state.cities[index]
+        let selectedDistrict = this.state.districts[index]
         this.setState({
-            selectedList: selectedDistrictCities
+            selectedList: selectedDistrictCities,
+            district: selectedDistrict
         })
+    }
+
+    locationSelected = (city) => {
+        let district = this.state.district
+        this.props.history.push(`/findaguru/forstudents/${this.props.match.params.grade}/${this.props.match.params.subject}/${district}/${city}`)
+    
     }
 
     render() {
@@ -176,7 +189,7 @@ export class StudentLocationSelection extends Component {
                         <h3>Select your city</h3>
                         <div className="row">
                             {this.state.selectedList.map((c, index) => <div key ={index} className="col-3 col-sm-6">
-                                <button style={style2} className="btn btn-outline-primary m-2 p-2">{c}</button>
+                                <button style={style2} onClick={() => this.locationSelected(c)}className="btn btn-outline-primary m-2 p-2">{c}</button>
                             </div>)}
                         </div>
                     </div>
