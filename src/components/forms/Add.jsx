@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Modal, Dropdown} from 'react-bootstrap'
-import ImageUploader from 'react-images-upload';
+
 
 import Location from '../../front_end_data/Location'
 import Subjects from '../../front_end_data/Subjects'
@@ -22,14 +22,17 @@ export class Add extends Component {
              banner: null,
              hour_price: '',
              description: '',
+             imgURL: null
         }
         this.onDrop = this.onDrop.bind(this);
     }
     
-    onDrop(picture) {
+    onDrop(event) {
         this.setState({
-            banner: picture
+            banner: event.target.files[0],
+            imgURL: URL.createObjectURL(event.target.files[0])
         });
+        
     }
 
     showModal = ()=>{
@@ -70,6 +73,8 @@ export class Add extends Component {
         })
         console.log("I am here")
     }
+
+
     render() {
 
         const style={
@@ -86,7 +91,7 @@ export class Add extends Component {
                     <Modal.Header closeButton onClick={this.closeModal}>
                         <Modal.Title>Create a new Add</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body style={{'max-height': 'calc(100vh - 210px)', 'overflow-y': 'auto'}}>
                         <div>
                             <div className="row">
                                 <div className = "col-12">
@@ -112,20 +117,19 @@ export class Add extends Component {
                             <div className="row">
                                 <div className = "col-12">
                                     <label>Email</label>
-                                    <input type = "email" className = "form-control" name="email" value = {this.state.email} onChange={this.changeText}/>
+                                    <input type = "email" className = "form-control" name="email" value = {this.state.email} onChange={this.changeText} />
                                 </div>
                             </div>
                             <hr></hr>
                             <div className="row">
                                 <div className="col-12">
-                                    {/* <ImageUploader
-                                        buttonText='Choose a banner'
-                                        onChange={this.onDrop}
-                                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                                        maxFileSize={5242880}
-                                        withPreview={true}
-                                    /> */}
-                                    <button className="btn btn-success">Add</button>
+                                    <lable for="image">Select a banner image</lable>
+                                    <input type="file" id="image" onChange={this.onDrop}/>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <img src={this.state.imgURL} style={{width: "450px"}}/>
                                 </div>
                             </div>
                             <hr></hr>

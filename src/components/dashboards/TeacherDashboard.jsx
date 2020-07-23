@@ -1,7 +1,35 @@
 import React, { Component } from 'react'
+
 import Add from '../forms/Add'
+import AuthenticationService from '../../services/AuthenticationService'
+
 
 export class TeacherDashboard extends Component {
+
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             details: null,
+             photo: null, 
+             name: null
+
+        }
+    }
+    
+    componentDidMount(){
+        AuthenticationService.getTeacherDetails()
+            .then((response) => {
+                this.setState({
+                    details: response.data,
+                    photo: `data:image/jpeg;base64,${response.data.photo}`,
+                    name: response.data.first_name +" "+ response.data.last_name
+                }, () => this.props.changePhoto(this.state.photo, this.state.name))
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
     render() {
         let style = {
@@ -9,7 +37,7 @@ export class TeacherDashboard extends Component {
         }
         return (
             <div className="container" >
-                <h3 className="text-center mt-5">Welcome Hashan</h3>
+                <h3 className="text-center mt-5">Welcome {this.state.name}</h3>
                 <div className="row">
                     <div className="col-3">
                         <div className="card" >

@@ -53,15 +53,28 @@ export class TeacherLogin extends Component {
     login(values){
         let email = values.email
         let password = values.password
-        if(email == 'hashan.mahesh01@gmail.com' && password == 'VUBishoo840*'){
-            AuthenticationService.registerSuccessfulLogin(email,password)
-            this.props.history.push('/findaguru/beaguru/dashboard')
-        }else{
-            this.setState({
-                login_error: true
+        // if(email == 'hashan.mahesh01@gmail.com' && password == 'VUBishoo840*'){
+        //     AuthenticationService.registerSuccessfulLogin(email,password)
+        //     this.props.history.push('/findaguru/beaguru/dashboard')
+        // }else{
+        //     this.setState({
+        //         login_error: true
+        //     })
+        // }
+
+        AuthenticationService.userLogin(email, password)
+            .then((response) => {
+                AuthenticationService.registerSuccessfulLogin(email, password)
+                this.props.history.push('/findaguru/beaguru/dashboard')
             })
-        }
+            .catch((error) => {
+                this.setState({
+                    login_error: true
+                })
+            })
     }
+
+
 
     validate(){
 

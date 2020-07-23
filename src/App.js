@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component }  from 'react';
 
 
 import Home from './components/Home'
@@ -17,26 +17,49 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import './App.css'
 
-function App() {
-  return (
-    <div className="App container-fluid">
+class App extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       photo: null,
+       user_name: ""
+    }
 
-      <Router>
-        <HeaderComponent/>
-        <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/findaguru/home" component={Home}/>
-          <Route path="/findaguru/beaguru/login" exact component={TeacherLogin}/>
-          <Route path="/findaguru/forstudents" exact component={StudentSelections}/>
-          <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
-          <AuthenticatedRoute path="/findaguru/beaguru/dashboard" component={TeacherDashboard}/>
-          <Route component={ErrorComponent}/>
-        </Switch>
-        <FooterComponent/>
-      </Router>
+    this.setPhoto = this.setPhoto.bind(this)
+  }
 
-    </div>
-  );
+  setPhoto(image, name){
+    console.log(" I am at the app.js file")
+    this.setState({
+      photo: image,
+      user_name: name
+    })
+  }
+  
+  render() {
+    return (
+      <div className="App container-fluid">
+
+        <Router>
+          <HeaderComponent userPhoto = {this.state.photo} userName={this.state.user_name}/>
+          <Switch>
+            <Route path="/" exact component={Home}/>
+            <Route path="/findaguru/home" component={Home}/>
+            <Route path="/findaguru/beaguru/login" exact component={TeacherLogin}/>
+            <Route path="/findaguru/forstudents" exact component={StudentSelections}/>
+            <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
+            <AuthenticatedRoute path="/findaguru/beaguru/dashboard" render = {(props) => <TeacherDashboard {...props} changePhoto={this.setPhoto}/>}/>
+            <Route component={ErrorComponent}/>
+
+            {/* component={() => <TeacherDashboard changePhoto={this.setPhoto}/>} */}
+          </Switch>
+          <FooterComponent/>
+        </Router>
+
+      </div>
+    )
+  }
 }
 
 export default App;

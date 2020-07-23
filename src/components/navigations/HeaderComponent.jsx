@@ -3,8 +3,12 @@ import {Link} from 'react-router-dom'
 import AuthenticationService from '../../services/AuthenticationService'
 import {withRouter} from 'react-router'
 
-function HeaderComponent() {
+function HeaderComponent(props) {
     let authenticated = AuthenticationService.isLoggedIn()
+    let style={
+        width: "40px",
+        height: "40px"     
+    }
     return (
         <header>
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -16,6 +20,8 @@ function HeaderComponent() {
                 <ul className="navbar-nav navbar-collapse justify-content-end">
                     {!authenticated &&<li><Link to="/findaguru/beaguru/login" className="nav-link">Be a guru</Link></li>}
                     {authenticated && <li><Link to="/findaguru/beaguru/login" className="nav-link" onClick={AuthenticationService.unregisterUser}>Sign out</Link></li>}
+                    {authenticated && <li className="navbar-brand">{props.userName}</li>}
+                    {authenticated && <li><img src={props.userPhoto} style={style}/></li>}
                 </ul>
             </nav>
         </header>
