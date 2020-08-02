@@ -49,7 +49,7 @@ class App extends Component {
             <Route path="/findaguru/beaguru/login" exact component={TeacherLogin}/>
             <Route path="/findaguru/forstudents" exact component={StudentSelections}/>
             <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
-            <AuthenticatedRoute path="/findaguru/beaguru/dashboard" render = {(props) => <TeacherDashboard {...props} changePhoto={this.setPhoto}/>}/>
+            <AuthenticatedRoute path="/findaguru/beaguru/dashboard" exact render = {(props) => <TeacherDashboard {...props} changePhoto={this.setPhoto}/>}/>
             <Route component={ErrorComponent}/>
 
             {/* component={() => <TeacherDashboard changePhoto={this.setPhoto}/>} */}

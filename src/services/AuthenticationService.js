@@ -24,6 +24,7 @@ class AuthenticationService{
     getTeacherDetails(){
         let loginForm = new FormData()
         loginForm.append('email', sessionStorage.getItem("authenticatedUser"))
+        console.log(sessionStorage.getItem("authenticatedUser"))
         return axios.post("http://localhost:8080/teacher_details/login/user",loginForm)
 
         // return axios.get("http://localhost:8080/teacher_details/login/use", loginForm)

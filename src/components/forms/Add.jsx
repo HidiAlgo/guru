@@ -5,6 +5,8 @@ import {Modal, Dropdown} from 'react-bootstrap'
 import Location from '../../front_end_data/Location'
 import Subjects from '../../front_end_data/Subjects'
 
+import TeacherAddService from '../../services/TeacherAddService'
+
 export class Add extends Component {
     constructor(props) {
         super(props)
@@ -48,6 +50,64 @@ export class Add extends Component {
 
     saveDetails = () =>{
         console.log(this.state)
+        let {title, grade, subject, district, city, phone_number, email, banner, hour_price, description, imgURL} = this.state
+        let newAdd = {
+            title,
+            grade, 
+            subject, 
+            district,
+            city,
+            phone_number,
+            email,
+            banner,
+            hour_price,
+            description, 
+            imgURL
+        }
+        let backEndAdd = {
+            title,
+            grade,
+            subject,
+            district,
+            city,
+            phone_number,
+            email,
+            banner: null,
+            hour_price,
+            description
+        }
+        TeacherAddService.saveAdd(backEndAdd)
+            .then((response) => {
+                TeacherAddService.saveAddBanner(response.data.id, banner)
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        this.props.createAdd(newAdd)
+        this.resetState();
+    }
+
+    resetState(){
+        this.setState({
+            show: false,
+            title:'',
+            grade:1,
+            subject: '',
+            district: '',
+            city:'',
+            phone_number: '',
+            email: '',
+            banner: null,
+            hour_price: '',
+            description: '',
+            imgURL: null
+        })
     }
     changeText = (event) => {
         let name = event.target.name
