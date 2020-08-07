@@ -32,8 +32,8 @@ export class StudentDashboard extends Component {
         return (
             <div className="container">
                 
-                {this.state.adds.map((add) => (
-                    <div className="row border mt-5" >
+                {this.state.adds.map((add, index) => (
+                    <div key={index} className="row border mt-5" >
                     <div className="col-8">
                         <h4>{add.teacherAdd.title}</h4>
                         <p>{add.teacherAdd.description}</p>

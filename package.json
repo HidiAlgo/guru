@@ -11,6 +11,7 @@
     "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.1",
     "react-images-upload": "^1.2.8",
     "react-router-dom": "^5.2.0",

@@ -39,7 +39,7 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App container-fluid">
+      <div>
 
         <Router>
           <HeaderComponent userPhoto = {this.state.photo} userName={this.state.user_name}/>
@@ -47,7 +47,7 @@ class App extends Component {
             <Route path="/" exact component={Home}/>
             <Route path="/findaguru/home" component={Home}/>
             <Route path="/findaguru/beaguru/login" exact component={TeacherLogin}/>
-            <Route path="/findaguru/forstudents" exact component={StudentSelections}/>
+            <Route path="/findaguru/forstudents"  component={StudentSelections}/>
             <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
             <AuthenticatedRoute path="/findaguru/beaguru/dashboard" exact render = {(props) => <TeacherDashboard {...props} changePhoto={this.setPhoto}/>}/>
             <Route component={ErrorComponent}/>

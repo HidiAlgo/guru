@@ -4,6 +4,11 @@ import Add from '../forms/Add'
 import AuthenticationService from '../../services/AuthenticationService'
 import TeacherAddService from '../../services/TeacherAddService'
 
+//In order to apply a custom alert-confirmation box, use the following third party library
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
+
 export class TeacherDashboard extends Component {
 
     constructor(props) {
@@ -14,7 +19,9 @@ export class TeacherDashboard extends Component {
              details: null,
              photo: null, 
              name: null,
-             count: 0
+             count: 0,
+             showAdd: false,
+             edit: null
 
         }
     }
@@ -25,9 +32,11 @@ export class TeacherDashboard extends Component {
                 this.setState({
                     details: response.data,
                     photo: `data:image/jpeg;base64,${response.data.photo}`,
-                    name: response.data.first_name +" "+ response.data.last_name
+                    name: response.data.first_name +" "+ response.data.last_name,
+                    showAdd: false
                 }, () => this.props.changePhoto(this.state.photo, this.state.name))
                 this.refreshData()
+
             })
             .catch((error) => {
                 console.log(error)
@@ -46,27 +55,99 @@ export class TeacherDashboard extends Component {
         })
     }
 
-    createAdd = (add) => {
-        // let reader = new FileReader()
-        // reader.readAsDataURL(banner)
-
-        // console.log("this is the url man-----------------", reader.result)
-        // add.banner = reader.result
-        add.banner = null
-        console.log("new Add Object recieved at create add *********************")
-        console.log(add)
+    createAdd = (add, id) => {
         let newAdd = this.state.adds
-        newAdd.push(add)
-        this.setState({
-            adds: newAdd
-        })
+        if(add.id){
+            let i
+            for(i = 0;i<newAdd.length;i++){
+                if(newAdd[i].id === id){
+                    newAdd[i] = add
+                    break;
+                }
+            }
+            this.setState({
+                adds: newAdd
+            })
+        }else{
+            this.setState({
+                addId: id
+            }, () => add.id = this.state.addId)
+    
+            add.banner = null
+    
+            newAdd.push(add)
+    
+            this.setState({
+                adds: newAdd
+            })
+        }
+        
         // this.refreshData()
         
+    }
+
+    removeAdd = (id, title) => {
+        confirmAlert({
+            title: "Do you want to delete "+title,
+            message: 'Are you sure to do this.',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => TeacherAddService.deleteTeacherAdd(id)  
+                    .then((response) => {
+                        // window.location.reload(false);
+                        this.refreshData()
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+              },
+              {
+                label: 'No',
+                onClick: () => {}
+              }
+            ]
+          });
+    }
+
+    showModal = () => {
+        this.setState({
+            showAdd: true
+        })
+    }
+    closeModal = () => {
+        // console.log("I am the first line in close model in dashboard")
+        // this.setState({
+        //     showAdd: false
+        // },() =>  console.log("I am the last line in close model in dashoboard"))
+        this.setState({
+            showAdd: false,
+            edit: null
+        })
+
+    }
+
+    editAdd = (id) => {
+        TeacherAddService.getTeacherAdd(id)
+            .then((response) => {
+                this.setState({
+                    edit: response.data,
+                    showAdd: true
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     render() {
         let style = {
             style: "width: 18rem"
+        }
+        const styleAdd={
+            width:'200px',
+            height:'200px',
+            fontSize:'100px'
         }
         return (
             <div className="container" >
@@ -88,14 +169,16 @@ export class TeacherDashboard extends Component {
                                     <li className="list-group-item">phone number: {add.phone_number}</li>
                                 </ul>
                                 <div className="card-body">
-                                    <button className="btn btn-primary">Edit</button>
-                                    <button className="btn btn-danger">Remove</button>
+                                    <button className="btn btn-primary" onClick={() => this.editAdd(add.id)}>Edit</button>
+                                    <button className="btn btn-danger" onClick={() => this.removeAdd(add.id, add.title)}>Remove</button>
                                 </div>
                             </div>
                     </div>
                    ))}
                     <div className="col-3">
-                        <Add createAdd = {this.createAdd}/>
+                        {/* <Add createAdd = {this.createAdd}/> */}
+                        <button className="btn btn-outline-info text-center" onClick={this.showModal} style={styleAdd}>+</button>
+                       {this.state.showAdd && <Add createAdd={this.createAdd} closeModal = {this.closeModal} edit={this.state.edit}/>}
                     </div>
                 </div>
                 

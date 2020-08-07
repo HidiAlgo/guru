@@ -33,7 +33,8 @@ export class Location extends Component {
                       ['All of Ratnapura','Ratnapura','Embilipitiya','Pelmadulla','Balangoda','Eheliyagoda', 'Kuruwita'],
                       ['All of Trincomalee','Trincomalee','Kinniya'],
                       ['All of Vavuniya','Vavuniya']],
-            selectedList: [] 
+            selectedList: [],
+            initialDistrict: "Select",
         }
         this.changeSelectedList = this.changeSelectedList.bind(this)
         this.changeCity = this.changeCity.bind(this)
@@ -51,6 +52,17 @@ export class Location extends Component {
     changeCity(event){
         this.props.pass(event.target.name, event.target.value)
     }
+
+    componentDidMount(){
+        let edit_city_list = []
+        if(this.props.selectedDistrict !== "Select"){
+            edit_city_list =  this.state.cities[this.state.districts.indexOf(this.props.selectedDistrict)]
+        }
+        this.setState({
+            initialDistrict: this.props.selectedDistrict,
+            selectedList: edit_city_list
+        })
+    }
     
     render() {
         return (
@@ -59,7 +71,7 @@ export class Location extends Component {
                     <label>District</label>
                     {/* use datalist here */}
                     <select className="form-control" name = 'district' onChange={this.changeSelectedList}>
-                        <option>Select</option>
+                        <option>{this.state.initialDistrict}</option>
                         {this.state.districts.map((d, index) => <option key={index}>{d}</option>)}
                     </select>
                 </div>

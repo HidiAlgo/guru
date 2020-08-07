@@ -7,6 +7,12 @@ class TeacherAddService{
         return axios.post("http://localhost:8080/teacher_details/create_add", add)
     }
 
+
+    editAdd(add){
+        add["teacherEmail"] = sessionStorage.getItem("authenticatedUser")
+        return axios.put("http://localhost:8080/teacher_details/edit_add", add)
+    }
+
     saveAddBanner(id, banner){
         let addBanner = new FormData()
         addBanner.append("id", id)
@@ -15,12 +21,21 @@ class TeacherAddService{
         return axios.post("http://localhost:8080/teacher_details/create_add/banner", addBanner)
     }
 
+
     getTeacherAdds(){
         return axios.get(`http://localhost:8080/teacher_details/getAdds/${sessionStorage.getItem("authenticatedUser")}`)
     }
 
+    getTeacherAdd(id){
+        return axios.get(`http://localhost:8080/teacher_details/getAdd/${id}`)
+    }
+
     getAddsForStudents(grade, subject, district, city){
         return axios.get(`http://localhost:8080/student_dashboard/get_adds/${grade}/${subject}/${district}/${city}`)
+    }
+
+    deleteTeacherAdd(id){
+        return axios.get(`http://localhost:8080/teacher_details/delete_add/${id}`)
     }
 
 }

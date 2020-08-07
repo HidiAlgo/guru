@@ -8,12 +8,13 @@ import Subjects from '../../front_end_data/Subjects'
 import TeacherAddService from '../../services/TeacherAddService'
 
 export class Add extends Component {
+
     constructor(props) {
         super(props)
         this.wrapper = React.createRef();
     
         this.state = {
-             show: false,
+             show: true,
              title:'',
              grade:1,
              subject: '',
@@ -22,75 +23,100 @@ export class Add extends Component {
              phone_number: '',
              email: '',
              banner: null,
+             edit_banner: null,
+             banner_byte: null,
              hour_price: '',
              description: '',
-             imgURL: null
+             imgURL: null, 
+             id: null,
+             category: 'Select'
         }
         this.onDrop = this.onDrop.bind(this);
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
+        if(this.props.edit){
+
+            const {title, grade, subject, district, city, phone_number, email, hour_price, description, id, banner} = this.props.edit
+            const edit_banner = `data:image/jpeg;base64,${this.props.edit.banner}`
+            this.setState({
+                title, grade, subject, district, city, phone_number, email, banner, edit_banner, hour_price, description, id, banner
+            })
+        }
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
     
     onDrop(event) {
         this.setState({
             banner: event.target.files[0],
-            imgURL: URL.createObjectURL(event.target.files[0])
+            imgURL: URL.createObjectURL(event.target.files[0]), 
+            edit_banner: null
         });
         
     }
 
-    showModal = ()=>{
-        this.setState({
-            show:true
-        })
-    }
+
+
     closeModal = () => {
-        this.setState({
-            show: false
-        })
+        this.resetState()
+        this.props.closeModal() 
     }
 
     saveDetails = () =>{
-        console.log(this.state)
         let {title, grade, subject, district, city, phone_number, email, banner, hour_price, description, imgURL} = this.state
-        let newAdd = {
-            title,
-            grade, 
-            subject, 
-            district,
-            city,
-            phone_number,
-            email,
-            banner,
-            hour_price,
-            description, 
-            imgURL
+        let newAdd = {title,grade,subject, district,city,phone_number,email,banner,hour_price, description, imgURL}
+        let backEndAdd = {title,grade,subject,district,city,phone_number,email,hour_price,description}
+
+
+        if(this.state.id){
+            backEndAdd.id = this.state.id
+            TeacherAddService.editAdd(backEndAdd)
+                .then((response) => {
+                    if(!this.state.edit_banner){
+                        TeacherAddService.saveAddBanner(this.state.id, banner)
+                            .then((response) => {
+                                
+                            })
+                            .catch((error) => {
+                                console.log(error)
+                            })
+                    }else{
+                        backEndAdd.banner = this.state.banner
+                        this.props.createAdd(backEndAdd, this.state.id)
+                    }
+
+                    this.props.closeModal();
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         }
-        let backEndAdd = {
-            title,
-            grade,
-            subject,
-            district,
-            city,
-            phone_number,
-            email,
-            banner: null,
-            hour_price,
-            description
+        else{
+            TeacherAddService.saveAdd(backEndAdd)
+                .then((response) => {
+                    this.setState({
+                        id: response.data.id
+                    })
+                    TeacherAddService.saveAddBanner(response.data.id, banner)
+                        .then((response) => {
+                                console.log(response)
+                                this.props.createAdd(newAdd, this.state.id)
+                                this.props.closeModal();
+                        })
+                        .catch((error) => {
+                                console.log(error)
+                        })            
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         }
-        TeacherAddService.saveAdd(backEndAdd)
-            .then((response) => {
-                TeacherAddService.saveAddBanner(response.data.id, banner)
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        this.props.createAdd(newAdd)
-        this.resetState();
+        
+        
     }
 
     resetState(){
@@ -115,6 +141,13 @@ export class Add extends Component {
             [name] : event.target.value
         })
     }
+    changeGrade = (event) => {
+        this.setState({
+            grade: event.target.value,
+            subject: '',
+            category: ''
+        })
+    }
     pass = (name, value) => {
         if(name === 'district'){
             this.setState({
@@ -127,26 +160,26 @@ export class Add extends Component {
         }
     }
 
-    setSubject = (value) => {
+    setSubject = (value, selectedCategory) => {
         this.setState({
-            subject: value
+            subject: value,
+            category: selectedCategory
         })
-        console.log("I am here")
     }
 
 
     render() {
 
-        const style={
-            width:'200px',
-            height:'200px',
-            fontSize:'100px'
-        }
+        // const style={
+        //     width:'200px',
+        //     height:'200px',
+        //     fontSize:'100px'
+        // }
 
 
         return (
             <div>
-                <button className="btn btn-outline-info text-center" onClick={this.showModal} style={style}>+</button>
+                {/* <button className="btn btn-outline-info text-center" onClick={this.showModal} style={style}>+</button> */}
                 <Modal show={this.state.show} onHide={this.showModal} animation="false" centered animation={false}>
                     <Modal.Header closeButton onClick={this.closeModal}>
                         <Modal.Title>Create a new Add</Modal.Title>
@@ -162,12 +195,17 @@ export class Add extends Component {
                             <div className="row">
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1">Grade</label>
-                                    <input type="number" className="form-control" name="grade" min="1" max="13" onChange={this.changeText} value = {this.state.grade}/>
+                                    <input type="number" className="form-control" name="grade" min="1" max="13" onChange={this.changeGrade} value = {this.state.grade}/>
                                     <small className="form-text text-muted">Enter your teaching grade between 1 and 13</small>
                                 </div>
                             </div>
-                            <Subjects setSubject = {this.setSubject} age={this.state.grade}/>
-                            <Location pass={this.pass}/>
+
+                            {this.state.subject === '' && <Subjects setSubject = {this.setSubject} age={this.state.grade} selectedCategory = {this.state.selectedCategory} selectedSubject = "Select"/>}      
+                            {this.state.subject !== '' && <Subjects setSubject = {this.setSubject} age={this.state.grade} selectedCategory = {this.state.selectedCategory} selectedSubject = {this.state.subject}/>}
+                            {this.state.district === '' && <Location pass={this.pass} selectedDistrict="Select"/>}
+                            {this.state.district !== '' && <Location pass={this.pass} selectedDistrict={this.state.district}/>}
+
+
                             <div className="row">
                                 <div className = "col-12">
                                     <label>Phone number</label>
@@ -189,7 +227,8 @@ export class Add extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-12">
-                                    <img src={this.state.imgURL} style={{width: "450px"}}/>
+                                    {this.state.imgURL && <img src={this.state.imgURL} style={{width: "450px"}}/>}
+                                    {this.state.edit_banner && <img src={this.state.edit_banner} style={{width: "450px"}}/>}
                                 </div>
                             </div>
                             <hr></hr>
