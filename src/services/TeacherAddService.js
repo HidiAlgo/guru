@@ -13,6 +13,9 @@ class TeacherAddService{
         return axios.put("http://localhost:8080/teacher_details/edit_add", add)
     }
 
+    getTeacherAddCount(email){
+        return axios.get(`http://localhost:8080/teacher_details/getAddCount/${email}`)
+    }
     saveAddBanner(id, banner){
         let addBanner = new FormData()
         addBanner.append("id", id)

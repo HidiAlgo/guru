@@ -51,10 +51,10 @@ function TeacherOLresults() {
                         <td>
                             <Field as="select" className="form-control" name="ol_result.bucket1[0]">
                                 <option value="no_option">Bucket one</option>
-                                <option value="tamil_language">Tamil Language</option>
-                                <option value="geography">Geography</option>
-                                <option value="commerce">Commerce</option>
-                                <option value="citizenship_Education">Citizenship Education</option>
+                                <option value="Tamil_Language">Tamil Language</option>
+                                <option value="Geography">Geography</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Citizenship_Education">Citizenship Education</option>
                             </Field>
                         </td>
                         <Subjects subject="ol_result.bucket1[1]" />
@@ -63,14 +63,14 @@ function TeacherOLresults() {
                         <td>
                             <Field as="select" className="form-control" name="ol_result.bucket2[0]">
                                 <option value="no_option_two">Bucket two</option>
-                                <option value="eastern_music">Eastern music</option>
-                                <option value="western_music">Western music</option>
-                                <option value="art">Art</option>
-                                <option value="dancing">Dancing</option>
-                                <option value="english_lit">English lit</option>
-                                <option value="drama_theater">Drama Theater</option>
-                                <option value="japanese">Japanese</option>
-                                <option value="sinhala lit">Sinhala lit</option>
+                                <option value="Eastern_Music">Eastern music</option>
+                                <option value="Western_Music">Western music</option>
+                                <option value="Art">Art</option>
+                                <option value="Dancing">Dancing</option>
+                                <option value="English_lit">English lit</option>
+                                <option value="Drama_Theater">Drama Theater</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Sinhala lit">Sinhala lit</option>
                             </Field>
                         </td>
                         <Subjects subject="ol_result.bucket2[1]" />
@@ -79,12 +79,12 @@ function TeacherOLresults() {
                         <td>
                             <Field as="select" className="form-control" name="ol_result.bucket3[0]">
                                 <option value="no_option">Bucket three</option>
-                                <option value="ict">ICT</option>
-                                <option value="agriculture">Agriculture</option>
-                                <option value="health_&_Physical_education">Health & Physical education</option>
-                                <option value="home_science">Home science</option>
-                                <option value="media_studies">Media studies</option>
-                                <option value="design_technology">Design technology</option>
+                                <option value="ICT">ICT</option>
+                                <option value="Agriculture">Agriculture</option>
+                                <option value="Health_&_Physical_Education">Health & Physical education</option>
+                                <option value="Home_Science">Home science</option>
+                                <option value="Media_Studies">Media studies</option>
+                                <option value="Design_Technology">Design technology</option>
                             </Field>
                         </td>
                         <Subjects subject="ol_result.bucket3[1]" />

@@ -11,7 +11,7 @@ import HeaderComponent from './components/navigations/HeaderComponent'
 import AuthenticatedRoute from './services/AuthenticatedRoute'
 import StudentSelections from './components/StudentSelections'
 import StudentSUbjectSelection from './components/forms/StudentSubjectSelection'
-
+import TeacherProfile from './components/profiles/TeacherProfile'
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
@@ -50,7 +50,9 @@ class App extends Component {
             <Route path="/findaguru/forstudents"  component={StudentSelections}/>
             <Route path="/findaguru/beaguru/signup/user_details" exact component={TeacherSignup}/>
             <AuthenticatedRoute path="/findaguru/beaguru/dashboard" exact render = {(props) => <TeacherDashboard {...props} changePhoto={this.setPhoto}/>}/>
+            <AuthenticatedRoute path="/findaguru/beaguru/dashboard/teacher_profile" component={TeacherProfile}/>
             <Route component={ErrorComponent}/>
+            {/* <Route component={TeacherProfile}/> */}
 
             {/* component={() => <TeacherDashboard changePhoto={this.setPhoto}/>} */}
           </Switch>

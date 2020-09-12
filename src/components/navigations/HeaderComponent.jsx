@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import AuthenticationService from '../../services/AuthenticationService'
 import {withRouter} from 'react-router'
 
+import {NavDropdown} from 'react-bootstrap'
+
 function HeaderComponent(props) {
     let authenticated = AuthenticationService.isLoggedIn()
     let style={
@@ -19,8 +21,11 @@ function HeaderComponent(props) {
                 </ul>
                 <ul className="navbar-nav navbar-collapse justify-content-end">
                     {!authenticated &&<li><Link to="/findaguru/beaguru/login" className="nav-link">Be a guru</Link></li>}
-                    {authenticated && <li><Link to="/findaguru/beaguru/login" className="nav-link" onClick={AuthenticationService.unregisterUser}>Sign out</Link></li>}
-                    {authenticated && <li className="navbar-brand">{props.userName}</li>}
+                    {authenticated && <NavDropdown title={props.userName} id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="#action/3.2"><Link to="/findaguru/beaguru/dashboard/teacher_profile">Your profile</Link></NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item><Link to="/findaguru/beaguru/login" onClick={AuthenticationService.unregisterUser}>Sign out</Link></NavDropdown.Item>
+                                    </NavDropdown>}        
                     {authenticated && <li><img src={props.userPhoto} style={style}/></li>}
                 </ul>
             </nav>
